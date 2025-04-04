@@ -10,6 +10,36 @@ export const categoryTypeDefs = gql`
     updatedAt: String!
   }
 
+  input CategoryFilter {
+    name: String
+    nameContains: String
+    description: String
+    descriptionContains: String
+    hasBreeds: Boolean
+  }
+
+  enum CategorySortField {
+    NAME
+    CREATED_AT
+    UPDATED_AT
+  }
+
+  input CategorySort {
+    field: CategorySortField!
+    direction: SortDirection
+  }
+
+  type CategoryEdge {
+    node: Category!
+    cursor: String!
+  }
+
+  type CategoryConnection {
+    edges: [CategoryEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+  }
+
   input CreateCategoryInput {
     name: String!
     description: String
@@ -26,7 +56,11 @@ export const categoryTypeDefs = gql`
   }
 
   extend type Query {
-    categories: [Category!]!
+    categories(
+      filter: CategoryFilter
+      sort: CategorySort
+      pagination: PaginationInput
+    ): CategoryConnection!
     category(id: ID!): Category
   }
 

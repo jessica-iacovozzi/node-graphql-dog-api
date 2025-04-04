@@ -28,8 +28,13 @@ export const breedTypeDefs = gql`
 
   input BreedFilter {
     name: String
-    origin: String
+    nameContains: String
+    descriptionContains: String
+    historyContains: String
+    originContains: String
     categoryId: ID
+    categoryIds: [ID!]
+    colors: [String!]
     minAverageHeight: Float
     maxAverageHeight: Float
     minAverageWeight: Float
@@ -38,6 +43,18 @@ export const breedTypeDefs = gql`
     maxAverageLifeExpectancy: Float
     minExerciseRequired: Int
     maxExerciseRequired: Int
+    minEaseOfTraining: Int
+    maxEaseOfTraining: Int
+    minAffection: Int
+    maxAffection: Int
+    minPlayfulness: Int
+    maxPlayfulness: Int
+    minGoodWithChildren: Int
+    maxGoodWithChildren: Int
+    minGoodWithDogs: Int
+    maxGoodWithDogs: Int
+    minGroomingRequired: Int
+    maxGroomingRequired: Int
   }
 
   enum BreedSortField {
@@ -46,6 +63,13 @@ export const breedTypeDefs = gql`
     AVERAGE_WEIGHT
     AVERAGE_LIFE_EXPECTANCY
     EXERCISE_REQUIRED
+    EASE_OF_TRAINING
+    AFFECTION
+    PLAYFULNESS
+    GOOD_WITH_CHILDREN
+    GOOD_WITH_DOGS
+    GROOMING_REQUIRED
+    CATEGORY_ID
   }
 
   enum SortDirection {
