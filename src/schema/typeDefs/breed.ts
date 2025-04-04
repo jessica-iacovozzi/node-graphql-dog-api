@@ -4,23 +4,23 @@ export const breedTypeDefs = gql`
   type Breed {
     id: ID!
     name: String!
-    commonNames: [String!]!
-    description: String
-    history: String
+    commonNames: [String!]
+    description: String!
+    history: String!
     funFact: String
-    health: String
-    origin: String
+    health: String!
+    origin: String!
     colors: [String!]!
-    averageHeight: Float
-    averageWeight: Float
-    averageLifeExpectancy: Float
-    exerciseRequired: Int
-    easeOfTraining: Int
-    affection: Int
-    playfulness: Int
-    goodWithChildren: Int
-    goodWithDogs: Int
-    groomingRequired: Int
+    averageHeight: Float!
+    averageWeight: Float!
+    averageLifeExpectancy: Float!
+    exerciseRequired: Int!
+    easeOfTraining: Int!
+    affection: Int!
+    playfulness: Int!
+    goodWithChildren: Int!
+    goodWithDogs: Int!
+    groomingRequired: Int!
     category: Category!
     createdAt: String!
     updatedAt: String!
@@ -110,22 +110,22 @@ export const breedTypeDefs = gql`
   input CreateBreedInput {
     name: String!
     commonNames: [String!]
-    description: String
-    history: String
+    description: String!
+    history: String!
     funFact: String
-    health: String
-    origin: String
+    health: String!
+    origin: String!
     colors: [String!]
-    averageHeight: Float
-    averageWeight: Float
-    averageLifeExpectancy: Float
-    exerciseRequired: Int
-    easeOfTraining: Int
-    affection: Int
-    playfulness: Int
-    goodWithChildren: Int
-    goodWithDogs: Int
-    groomingRequired: Int
+    averageHeight: Float!
+    averageWeight: Float!
+    averageLifeExpectancy: Float!
+    exerciseRequired: Int!
+    easeOfTraining: Int!
+    affection: Int!
+    playfulness: Int!
+    goodWithChildren: Int!
+    goodWithDogs: Int!
+    groomingRequired: Int!
     categoryId: ID!
   }
 

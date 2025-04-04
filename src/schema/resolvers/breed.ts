@@ -77,22 +77,22 @@ interface BreedQueryArgs {
 interface CreateBreedInput {
   name: string;
   commonNames?: string[];
-  description?: string;
-  history?: string;
+  description: string;
+  history: string;
   funFact?: string;
-  health?: string;
-  origin?: string;
-  colors?: string[];
-  averageHeight?: number;
-  averageWeight?: number;
-  averageLifeExpectancy?: number;
-  exerciseRequired?: number;
-  easeOfTraining?: number;
-  affection?: number;
-  playfulness?: number;
-  goodWithChildren?: number;
-  goodWithDogs?: number;
-  groomingRequired?: number;
+  health: string;
+  origin: string;
+  colors: string[];
+  averageHeight: number;
+  averageWeight: number;
+  averageLifeExpectancy: number;
+  exerciseRequired: number;
+  easeOfTraining: number;
+  affection: number;
+  playfulness: number;
+  goodWithChildren: number;
+  goodWithDogs: number;
+  groomingRequired: number;
   categoryId: string;
 }
 

@@ -13,7 +13,7 @@ datasource db {
 model Category {
   id          String  @id @default(uuid())
   name        String  @unique
-  description String?
+  description String
   breeds      Breed[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -22,23 +22,23 @@ model Category {
 model Breed {
   id                   String   @id @default(uuid())
   name                 String   @unique
-  commonNames          String[]
-  description          String?
-  history              String?
+  commonNames          String[]?
+  description          String
+  history              String
   funFact              String?
-  health               String?
-  origin               String?
+  health               String
+  origin               String
   colors               String[]
-  averageHeight        Float?
-  averageWeight        Float?
-  averageLifeExpectancy Float?
-  exerciseRequired     Int?     @db.SmallInt
-  easeOfTraining       Int?     @db.SmallInt
-  affection            Int?     @db.SmallInt
-  playfulness          Int?     @db.SmallInt
-  goodWithChildren     Int?     @db.SmallInt
-  goodWithDogs         Int?     @db.SmallInt
-  groomingRequired     Int?     @db.SmallInt
+  averageHeight        Float
+  averageWeight        Float
+  averageLifeExpectancy Float
+  exerciseRequired     Int     @db.SmallInt
+  easeOfTraining       Int     @db.SmallInt
+  affection            Int     @db.SmallInt
+  playfulness          Int     @db.SmallInt
+  goodWithChildren     Int     @db.SmallInt
+  goodWithDogs         Int     @db.SmallInt
+  groomingRequired     Int     @db.SmallInt
   categoryId           String
   category             Category @relation(fields: [categoryId], references: [id])
   createdAt            DateTime @default(now())
