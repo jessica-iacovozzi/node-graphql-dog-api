@@ -308,7 +308,6 @@ const applyCursorPagination = <T extends { id: string }>(
   
   let edges = allEdges;
   
-  // Apply pagination if provided
   if (pagination) {
     // Handle 'after' cursor pagination
     if (pagination.after) {
