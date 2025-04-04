@@ -1,0 +1,96 @@
+{
+  "rules": [
+    {
+      "name": "GraphQL Schema Design",
+      "description": [
+        "Follow GraphQL naming conventions: queries are nouns, mutations are verbs",
+        "Use connection pattern for pagination as shown in the schema",
+        "Make fields nullable only when they can be legitimately undefined",
+        "Create input types for all mutations and complex query filters",
+        "Implement interfaces for shared entity properties"
+      ]
+    },
+    {
+      "name": "TypeScript Best Practices",
+      "description": [
+        "Create type definitions for all GraphQL resolvers",
+        "Leverage TypeScript interfaces for data models",
+        "Use enums for fields with a finite set of values",
+        "Ensure all GraphQL resolvers have proper return type definitions"
+      ]
+    },
+    {
+      "name": "Project Structure",
+      "description": [
+        "Follow the defined project structure in the README",
+        "Split GraphQL schemas by domain in the typeDefs directory",
+        "Split resolvers by domain matching the typeDefs structure",
+        "Keep business logic in models directory",
+        "Place external integrations in services directory",
+        "Store configuration in config directory",
+        "Create utility functions in utils directory"
+      ]
+    },
+    {
+      "name": "Database & Prisma",
+      "description": [
+        "Follow Prisma schema best practices",
+        "Create explicit relations between models",
+        "Use appropriate field types based on data requirements",
+        "Write migration descriptions that clearly explain changes",
+        "Keep Prisma client usage consistent across resolvers"
+      ]
+    },
+    {
+      "name": "Testing Standards",
+      "description": [
+        "Write unit tests for all resolvers",
+        "Create integration tests for database operations",
+        "Test both positive and negative cases",
+        "Mock external dependencies in tests",
+        "Create test fixtures for common data patterns",
+        "Maintain test directory structure mirroring src"
+      ]
+    },
+    {
+      "name": "Error Handling",
+      "description": [
+        "Use Apollo error handling best practices",
+        "Create custom error types for domain-specific errors",
+        "Provide meaningful error messages",
+        "Include appropriate HTTP status codes",
+        "Log errors with context for debugging"
+      ]
+    },
+    {
+      "name": "Performance",
+      "description": [
+        "Implement dataloader for N+1 query prevention",
+        "Use appropriate indexing on database fields",
+        "Implement caching for frequently accessed data",
+        "Limit query depth and complexity",
+        "Optimize resolver implementation for performance"
+      ]
+    },
+    {
+      "name": "Documentation",
+      "description": [
+        "Document all GraphQL types and fields",
+        "Use JSDoc for functions and classes",
+        "Create example queries and mutations",
+        "Document environment variables",
+        "Update README.md as project evolves"
+      ]
+    },
+    {
+      "name": "Development Workflow",
+      "description": [
+        "Use feature branches for development",
+        "Write descriptive commit messages",
+        "Create pull requests with clear descriptions",
+        "Ensure tests pass before merging",
+        "Use Docker for consistent development environment"
+      ]
+    }
+  ]
+}
