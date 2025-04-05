@@ -4,7 +4,6 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
-import { json } from 'body-parser';
 import { typeDefs } from './schema/typeDefs';
 import { resolvers } from './schema/resolvers';
 import { prisma } from './config/prisma';
@@ -26,7 +25,7 @@ async function startServer() {
 
   app.use('/graphql', [
     cors(),
-    json(),
+    express.json(),
     expressMiddleware(server, {
       context: async () => {
         const loaders = createLoaders(prisma);
