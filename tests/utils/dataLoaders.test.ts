@@ -22,8 +22,8 @@ describe('DataLoaders', () => {
     test('should batch and load categories by id', async () => {
       // Arrange
       const mockCategories = [
-        { id: '1', name: 'Herding' },
-        { id: '2', name: 'Toy' },
+        { id: '1', name: 'Herding', description: 'Herding dogs', createdAt: new Date(), updatedAt: new Date() },
+        { id: '2', name: 'Toy', description: 'Toy dogs', createdAt: new Date(), updatedAt: new Date() },
       ];
       mockPrisma.category.findMany.mockResolvedValue(mockCategories);
       
@@ -43,7 +43,7 @@ describe('DataLoaders', () => {
     
     test('should return null for non-existent category', async () => {
       // Arrange
-      const mockCategories = [{ id: '1', name: 'Herding' }];
+      const mockCategories = [{ id: '1', name: 'Herding', description: 'Herding dogs', createdAt: new Date(), updatedAt: new Date() }];
       mockPrisma.category.findMany.mockResolvedValue(mockCategories);
       
       const loaders = createLoaders(mockPrisma as unknown as PrismaClient);
@@ -61,8 +61,50 @@ describe('DataLoaders', () => {
     test('should batch and load breeds by id', async () => {
       // Arrange
       const mockBreeds = [
-        { id: '1', name: 'Border Collie', categoryId: '1' },
-        { id: '2', name: 'German Shepherd', categoryId: '1' },
+        { 
+          id: '1', 
+          name: 'Border Collie', 
+          categoryId: '1', 
+          description: 'A herding dog', 
+          history: 'Scottish origins', 
+          health: 'Generally healthy', 
+          origin: 'Scotland',
+          colors: ['Black and White'],
+          averageHeight: 20,
+          averageWeight: 40,
+          averageLifeExpectancy: 12,
+          exerciseRequired: 5,
+          easeOfTraining: 5,
+          affection: 4,
+          playfulness: 5,
+          goodWithChildren: 5,
+          goodWithDogs: 4,
+          groomingRequired: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        { 
+          id: '2', 
+          name: 'German Shepherd', 
+          categoryId: '1', 
+          description: 'A versatile working dog', 
+          history: 'German origins', 
+          health: 'Prone to hip issues', 
+          origin: 'Germany',
+          colors: ['Black and Tan'],
+          averageHeight: 24,
+          averageWeight: 75,
+          averageLifeExpectancy: 11,
+          exerciseRequired: 4,
+          easeOfTraining: 5,
+          affection: 4,
+          playfulness: 4,
+          goodWithChildren: 5,
+          goodWithDogs: 3,
+          groomingRequired: 4,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
       ];
       mockPrisma.breed.findMany.mockResolvedValue(mockBreeds);
       
@@ -82,7 +124,28 @@ describe('DataLoaders', () => {
     
     test('should return null for non-existent breed', async () => {
       // Arrange
-      const mockBreeds = [{ id: '1', name: 'Border Collie', categoryId: '1' }];
+      const mockBreeds = [{ 
+        id: '1', 
+        name: 'Border Collie', 
+        categoryId: '1', 
+        description: 'A herding dog', 
+        history: 'Scottish origins', 
+        health: 'Generally healthy', 
+        origin: 'Scotland',
+        colors: ['Black and White'],
+        averageHeight: 20,
+        averageWeight: 40,
+        averageLifeExpectancy: 12,
+        exerciseRequired: 5,
+        easeOfTraining: 5,
+        affection: 4,
+        playfulness: 5,
+        goodWithChildren: 5,
+        goodWithDogs: 4,
+        groomingRequired: 3,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }];
       mockPrisma.breed.findMany.mockResolvedValue(mockBreeds);
       
       const loaders = createLoaders(mockPrisma as unknown as PrismaClient);
@@ -101,8 +164,50 @@ describe('DataLoaders', () => {
       // Arrange
       const categoryId = '1';
       const mockBreeds = [
-        { id: '1', name: 'Border Collie', categoryId },
-        { id: '2', name: 'German Shepherd', categoryId },
+        { 
+          id: '1', 
+          name: 'Border Collie', 
+          categoryId, 
+          description: 'A herding dog', 
+          history: 'Scottish origins', 
+          health: 'Generally healthy', 
+          origin: 'Scotland',
+          colors: ['Black and White'],
+          averageHeight: 20,
+          averageWeight: 40,
+          averageLifeExpectancy: 12,
+          exerciseRequired: 5,
+          easeOfTraining: 5,
+          affection: 4,
+          playfulness: 5,
+          goodWithChildren: 5,
+          goodWithDogs: 4,
+          groomingRequired: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        { 
+          id: '2', 
+          name: 'German Shepherd', 
+          categoryId, 
+          description: 'A versatile working dog', 
+          history: 'German origins', 
+          health: 'Prone to hip issues', 
+          origin: 'Germany',
+          colors: ['Black and Tan'],
+          averageHeight: 24,
+          averageWeight: 75,
+          averageLifeExpectancy: 11,
+          exerciseRequired: 4,
+          easeOfTraining: 5,
+          affection: 4,
+          playfulness: 4,
+          goodWithChildren: 5,
+          goodWithDogs: 3,
+          groomingRequired: 4,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
       ];
       mockPrisma.breed.findMany.mockResolvedValue(mockBreeds);
       
@@ -139,11 +244,74 @@ describe('DataLoaders', () => {
     test('should batch multiple category requests', async () => {
       // Arrange
       const mockBreedsCategory1 = [
-        { id: '1', name: 'Border Collie', categoryId: '1' },
-        { id: '2', name: 'German Shepherd', categoryId: '1' },
+        { 
+          id: '1', 
+          name: 'Border Collie', 
+          categoryId: '1', 
+          description: 'A herding dog', 
+          history: 'Scottish origins', 
+          health: 'Generally healthy', 
+          origin: 'Scotland',
+          colors: ['Black and White'],
+          averageHeight: 20,
+          averageWeight: 40,
+          averageLifeExpectancy: 12,
+          exerciseRequired: 5,
+          easeOfTraining: 5,
+          affection: 4,
+          playfulness: 5,
+          goodWithChildren: 5,
+          goodWithDogs: 4,
+          groomingRequired: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        { 
+          id: '2', 
+          name: 'German Shepherd', 
+          categoryId: '1', 
+          description: 'A versatile working dog', 
+          history: 'German origins', 
+          health: 'Prone to hip issues', 
+          origin: 'Germany',
+          colors: ['Black and Tan'],
+          averageHeight: 24,
+          averageWeight: 75,
+          averageLifeExpectancy: 11,
+          exerciseRequired: 4,
+          easeOfTraining: 5,
+          affection: 4,
+          playfulness: 4,
+          goodWithChildren: 5,
+          goodWithDogs: 3,
+          groomingRequired: 4,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
       ];
       const mockBreedsCategory2 = [
-        { id: '3', name: 'Poodle', categoryId: '2' },
+        { 
+          id: '3', 
+          name: 'Poodle', 
+          categoryId: '2', 
+          description: 'A non-shedding dog', 
+          history: 'French origins', 
+          health: 'Generally healthy', 
+          origin: 'France',
+          colors: ['Black', 'White', 'Brown'],
+          averageHeight: 15,
+          averageWeight: 45,
+          averageLifeExpectancy: 14,
+          exerciseRequired: 4,
+          easeOfTraining: 5,
+          affection: 5,
+          playfulness: 4,
+          goodWithChildren: 5,
+          goodWithDogs: 4,
+          groomingRequired: 5,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
       ];
       
       // Since DataLoader batches requests, we only need to mock a single call

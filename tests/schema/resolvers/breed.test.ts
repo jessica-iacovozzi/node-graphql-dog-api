@@ -275,9 +275,22 @@ describe('Breed Resolvers', () => {
       const input = { 
         name: 'Border Collie', 
         categoryId: '1',
+        description: 'Smart, hardworking herding dog',
+        history: 'Developed in the border country of England and Scotland',
+        health: 'Generally healthy, may have eye issues',
+        origin: 'United Kingdom',
+        funFact: 'Known to be one of the most intelligent dog breeds',
+        colors: ['black', 'white'],
         averageHeight: 20,
         averageWeight: 18,
-        colors: ['black', 'white'],
+        averageLifeExpectancy: 12,
+        exerciseRequired: 5,
+        easeOfTraining: 5,
+        affection: 4,
+        playfulness: 5,
+        goodWithChildren: 5,
+        goodWithDogs: 4,
+        groomingRequired: 3
       };
       const mockBreed = { id: '1', ...input };
       mockPrisma.breed.create.mockResolvedValue(mockBreed);

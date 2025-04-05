@@ -52,6 +52,21 @@ describe('Error Handling in Resolvers', () => {
       const input = {
         name: 'Test Breed',
         categoryId: 'non-existent-category',
+        description: 'Test breed description',
+        history: 'Test breed history',
+        health: 'Test breed health information',
+        origin: 'Test country of origin',
+        colors: ['brown', 'white'],
+        averageHeight: 22,
+        averageWeight: 30,
+        averageLifeExpectancy: 13,
+        exerciseRequired: 3,
+        easeOfTraining: 4,
+        affection: 4,
+        playfulness: 3,
+        goodWithChildren: 5,
+        goodWithDogs: 4,
+        groomingRequired: 2
       };
       
       // Mock Prisma to throw a foreign key constraint error
@@ -209,6 +224,21 @@ describe('Error Handling in Resolvers', () => {
       const input = {
         name: 'Test Breed',
         categoryId: 'valid-category-id',
+        description: 'Test breed description',
+        history: 'Test breed history',
+        health: 'Test breed health information',
+        origin: 'Test country of origin',
+        colors: ['brown', 'white'],
+        averageHeight: 22,
+        averageWeight: 30,
+        averageLifeExpectancy: 13,
+        exerciseRequired: 3,
+        easeOfTraining: 4,
+        affection: 4,
+        playfulness: 3,
+        goodWithChildren: 5,
+        goodWithDogs: 4,
+        groomingRequired: 2
       };
       
       // Mock transaction error
@@ -229,6 +259,21 @@ describe('Error Handling in Resolvers', () => {
       const input = {
         name: 'Duplicate Breed',
         categoryId: 'valid-category-id',
+        description: 'Test breed description',
+        history: 'Test breed history',
+        health: 'Test breed health information',
+        origin: 'Test country of origin',
+        colors: ['brown', 'white'],
+        averageHeight: 22,
+        averageWeight: 30,
+        averageLifeExpectancy: 13,
+        exerciseRequired: 3,
+        easeOfTraining: 4,
+        affection: 4,
+        playfulness: 3,
+        goodWithChildren: 5,
+        goodWithDogs: 4,
+        groomingRequired: 2
       };
       
       // Mock unique constraint violation with proper Prisma error structure
