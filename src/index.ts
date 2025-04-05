@@ -32,14 +32,14 @@ async function startServer() {
         const loaders = createLoaders(prisma);
         return { prisma, loaders };
       },
-    }) as unknown as express.RequestHandler
+    }) as unknown as express.RequestHandler,
   ]);
 
   const PORT = process.env.PORT || 4000;
-  await new Promise<void>((resolve) => httpServer.listen({ port: PORT }, resolve));
+  await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve));
   console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
 }
 
-startServer().catch((err) => {
+startServer().catch(err => {
   console.error('Failed to start server:', err);
 });

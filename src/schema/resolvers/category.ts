@@ -70,7 +70,7 @@ const buildFilters = (filter?: CategoryFilter) => {
   if (!filter) return {};
 
   const filters: Record<string, any> = {};
-  
+
   if (filter.name) {
     filters.name = filter.name;
   }
@@ -81,7 +81,7 @@ const buildFilters = (filter?: CategoryFilter) => {
       mode: 'insensitive',
     };
   }
-  
+
   if (filter.description) {
     filters.description = filter.description;
   }
@@ -94,13 +94,15 @@ const buildFilters = (filter?: CategoryFilter) => {
   }
 
   if (filter.hasBreeds !== undefined) {
-    filters.breeds = filter.hasBreeds ? {
-      some: {}
-    } : {
-      none: {}
-    };
+    filters.breeds = filter.hasBreeds
+      ? {
+          some: {},
+        }
+      : {
+          none: {},
+        };
   }
-  
+
   return filters;
 };
 
@@ -110,42 +112,45 @@ const buildFilters = (filter?: CategoryFilter) => {
  * @param pagination - GraphQL pagination input with cursor-based options
  * @returns Connection object with edges, pageInfo, and totalCount
  */
-const applyCursorPagination = <T extends { id: string }>(items: T[], pagination?: PaginationInput) => {
+const applyCursorPagination = <T extends { id: string }>(
+  items: T[],
+  pagination?: PaginationInput,
+) => {
   // Create a base connection object with all items
   let edges = items.map(item => ({
     node: item,
     cursor: Buffer.from(item.id).toString('base64'),
   }));
-  
+
   let hasNextPage = false;
   let hasPreviousPage = false;
-  
+
   // Apply forward pagination (first/after)
   if (pagination?.after) {
     const afterId = Buffer.from(pagination.after, 'base64').toString('utf-8');
-    const afterIndex = edges.findIndex(edge => 
-      Buffer.from(edge.cursor, 'base64').toString('utf-8') === afterId
+    const afterIndex = edges.findIndex(
+      edge => Buffer.from(edge.cursor, 'base64').toString('utf-8') === afterId,
     );
-    
+
     if (afterIndex >= 0) {
       edges = edges.slice(afterIndex + 1);
       hasPreviousPage = true;
     }
   }
-  
+
   // Apply backward pagination (last/before)
   if (pagination?.before) {
     const beforeId = Buffer.from(pagination.before, 'base64').toString('utf-8');
-    const beforeIndex = edges.findIndex(edge => 
-      Buffer.from(edge.cursor, 'base64').toString('utf-8') === beforeId
+    const beforeIndex = edges.findIndex(
+      edge => Buffer.from(edge.cursor, 'base64').toString('utf-8') === beforeId,
     );
-    
+
     if (beforeIndex >= 0) {
       edges = edges.slice(0, beforeIndex);
       hasNextPage = true;
     }
   }
-  
+
   // Apply limit based on first/last
   if (pagination?.first) {
     if (edges.length > pagination.first) {
@@ -158,13 +163,13 @@ const applyCursorPagination = <T extends { id: string }>(items: T[], pagination?
       hasPreviousPage = true;
     }
   }
-  
+
   const startCursor = edges.length > 0 ? edges[0].cursor : null;
   const endCursor = edges.length > 0 ? edges[edges.length - 1].cursor : null;
-  
+
   const hasNextPageFinal = pagination?.first ? edges.length === pagination.first : false;
   const hasPreviousPageFinal = pagination?.last ? edges.length === pagination.last : false;
-  
+
   return {
     edges,
     pageInfo: {
@@ -183,10 +188,10 @@ export const categoryResolvers = {
     categories: async (
       _: any,
       { filter, sort, pagination }: CategoryQueryArgs,
-      { prisma }: { prisma: PrismaClient }
+      { prisma }: { prisma: PrismaClient },
     ) => {
       const where = buildFilters(filter);
-      
+
       // Default sort by name if none provided
       let orderBy: Record<string, string> = { name: 'asc' };
       if (sort) {
@@ -199,7 +204,7 @@ export const categoryResolvers = {
       let cursor;
       let skip;
       let take = pagination?.first || 10;
-      
+
       if (pagination?.after) {
         const decodedCursor = Buffer.from(pagination.after, 'base64').toString('utf-8');
         cursor = { id: decodedCursor };
@@ -211,10 +216,10 @@ export const categoryResolvers = {
         take = -(pagination?.last || 10);
         skip = 1; // Skip the cursor item
       }
-      
+
       // Fetch total count for pagination info
       const totalCount = await prisma.category.count({ where });
-      
+
       // Fetch categories with pagination
       const categories = await prisma.category.findMany({
         where,
@@ -224,14 +229,14 @@ export const categoryResolvers = {
         take,
         include: {
           _count: {
-            select: { breeds: true }
-          }
-        }
+            select: { breeds: true },
+          },
+        },
       });
-      
+
       // If we're paginating backwards, we need to reverse the results
       const orderedCategories = take < 0 ? categories.reverse() : categories;
-      
+
       // Apply cursor pagination and return the connection object
       return {
         ...applyCursorPagination(orderedCategories, pagination),
@@ -248,7 +253,7 @@ export const categoryResolvers = {
     createCategory: async (
       _: any,
       { input }: CreateCategoryArgs,
-      { prisma }: { prisma: PrismaClient }
+      { prisma }: { prisma: PrismaClient },
     ) => {
       return prisma.category.create({
         data: {
@@ -260,7 +265,7 @@ export const categoryResolvers = {
     updateCategory: async (
       _: any,
       { id, input }: CategoryMutationArgs,
-      { prisma }: { prisma: PrismaClient }
+      { prisma }: { prisma: PrismaClient },
     ) => {
       return prisma.category.update({
         where: { id },
@@ -270,15 +275,11 @@ export const categoryResolvers = {
         },
       });
     },
-    deleteCategory: async (
-      _: any,
-      { id }: CategoryArgs,
-      { prisma }: { prisma: PrismaClient }
-    ) => {
+    deleteCategory: async (_: any, { id }: CategoryArgs, { prisma }: { prisma: PrismaClient }) => {
       await prisma.category.delete({
         where: { id },
       });
-      
+
       return {
         id,
         success: true,

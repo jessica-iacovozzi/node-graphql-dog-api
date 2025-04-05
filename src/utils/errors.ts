@@ -14,7 +14,7 @@ export class DogApiError extends GraphQLError {
         http: { status },
       },
     });
-    
+
     Object.defineProperty(this, 'name', { value: this.constructor.name });
   }
 }
@@ -22,11 +22,7 @@ export class DogApiError extends GraphQLError {
 // Resource not found
 export class NotFoundError extends DogApiError {
   constructor(resource: string, id: string) {
-    super(
-      `${resource} with ID '${id}' not found`,
-      'RESOURCE_NOT_FOUND',
-      404
-    );
+    super(`${resource} with ID '${id}' not found`, 'RESOURCE_NOT_FOUND', 404);
   }
 }
 
@@ -69,28 +65,28 @@ export class DatabaseError extends DogApiError {
 export const formatError = (error: any) => {
   // Log error for debugging
   console.error('GraphQL Error:', error);
-  
+
   // If it's already one of our custom errors, return it as is
   if (error.originalError instanceof DogApiError) {
     return error;
   }
-  
+
   // Check for Prisma errors and convert them to our custom format
   if (error.originalError?.name === 'PrismaClientKnownRequestError') {
     const prismaError = error.originalError;
-    
+
     // Handle common Prisma error codes
     if (prismaError.code === 'P2002') {
       return new ConflictError('A record with this value already exists');
     }
-    
+
     if (prismaError.code === 'P2025') {
       return new NotFoundError('Record', 'unknown');
     }
-    
+
     return new DatabaseError('Database operation failed');
   }
-  
+
   // Return a sanitized error for unexpected errors
   if (error.extensions?.code === 'INTERNAL_SERVER_ERROR') {
     return new GraphQLError('Internal server error', {
@@ -100,9 +96,7 @@ export const formatError = (error: any) => {
       },
     });
   }
-  
+
   // For other errors, return as is but limit error details in production
-  return process.env.NODE_ENV === 'production'
-    ? { ...error, message: error.message }
-    : error;
+  return process.env.NODE_ENV === 'production' ? { ...error, message: error.message } : error;
 };

@@ -157,11 +157,7 @@ export const breedTypeDefs = gql`
   }
 
   extend type Query {
-    breeds(
-      filter: BreedFilter
-      sort: BreedSort
-      pagination: PaginationInput
-    ): BreedConnection!
+    breeds(filter: BreedFilter, sort: BreedSort, pagination: PaginationInput): BreedConnection!
     breed(id: ID!): Breed
   }
 

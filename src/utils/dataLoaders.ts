@@ -62,22 +62,24 @@ export const createLoaders = (prisma: PrismaClient) => {
    * DataLoader for loading breeds by category ID
    * Batches multiple breed requests to prevent N+1 query problems when fetching breeds for categories
    */
-  const breedsByCategoryLoader = new DataLoader<string, Breed[]>(async (categoryIds: readonly string[]) => {
-    const breeds = await prisma.breed.findMany({
-      where: {
-        categoryId: {
-          in: [...categoryIds],
+  const breedsByCategoryLoader = new DataLoader<string, Breed[]>(
+    async (categoryIds: readonly string[]) => {
+      const breeds = await prisma.breed.findMany({
+        where: {
+          categoryId: {
+            in: [...categoryIds],
+          },
         },
-      },
-    });
+      });
 
-    // Group breeds by categoryId
-    const breedsByCategory = categoryIds.map(categoryId => 
-      breeds.filter((breed: Breed) => breed.categoryId === categoryId)
-    );
+      // Group breeds by categoryId
+      const breedsByCategory = categoryIds.map(categoryId =>
+        breeds.filter((breed: Breed) => breed.categoryId === categoryId),
+      );
 
-    return breedsByCategory;
-  });
+      return breedsByCategory;
+    },
+  );
 
   /**
    * DataLoader for loading breeds by ID
