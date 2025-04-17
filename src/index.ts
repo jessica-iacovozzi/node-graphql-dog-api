@@ -4,6 +4,7 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
+import helmet from 'helmet';
 import { typeDefs } from './schema/typeDefs';
 import { resolvers } from './schema/resolvers';
 import { prisma } from './config/prisma';
@@ -14,6 +15,21 @@ import { graphqlRateLimiter } from './middleware/graphqlRateLimiter';
 
 async function startServer() {
   const app = express();
+  
+  const corsOptions = {
+    origin: process.env.NODE_ENV === 'production' 
+      ? process.env.ALLOWED_ORIGINS?.split(',') || '[https://yourdomain.com](https://yourdomain.com)'
+      : '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    maxAge: 86400 // 24 hours
+  };
+  
+  app.use(helmet({
+    contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false
+  }));
+  
   app.use(apiLimiter);
 
   const httpServer = http.createServer(app);
@@ -30,7 +46,7 @@ async function startServer() {
   app.use('/graphql', graphqlRateLimiter);
 
   app.use('/graphql', [
-    cors(),
+    cors(corsOptions),
     express.json(),
     expressMiddleware(server, {
       context: async () => {
@@ -38,7 +54,7 @@ async function startServer() {
         return { prisma, loaders };
       },
     }) as unknown as express.RequestHandler,
-  ]);
+  ]); 
 
   const PORT = process.env.PORT || 4000;
   await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve));
