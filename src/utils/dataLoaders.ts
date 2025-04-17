@@ -57,7 +57,7 @@ export const createLoaders = (prisma: PrismaClient) => {
     // Make sure the returned categories are in the same order as the ids
     return ids.map(id => {
       const category = categories.find((c: any) => c.id === id);
-      return category ? category as unknown as Category : null;
+      return category ? (category as unknown as Category) : null;
     });
   });
 
@@ -77,7 +77,9 @@ export const createLoaders = (prisma: PrismaClient) => {
 
       // Group breeds by categoryId
       const breedsByCategory = categoryIds.map(categoryId =>
-        breeds.filter((b: any) => b.categoryId === categoryId).map((b: any) => b as unknown as Breed),
+        breeds
+          .filter((b: any) => b.categoryId === categoryId)
+          .map((b: any) => b as unknown as Breed),
       );
 
       return breedsByCategory;
@@ -100,7 +102,7 @@ export const createLoaders = (prisma: PrismaClient) => {
     // Make sure the returned breeds are in the same order as the ids
     return ids.map(id => {
       const breed = breeds.find((b: any) => b.id === id);
-      return breed ? breed as unknown as Breed : null;
+      return breed ? (breed as unknown as Breed) : null;
     });
   });
 

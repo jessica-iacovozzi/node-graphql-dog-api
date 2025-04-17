@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Working",
+    "description": "Dogs bred for tasks such as guarding property, pulling sleds, and performing water rescues."
+  },
+  {
+    "name": "Herding",
+    "description": "Dogs bred to gather, herd, and protect livestock such as sheep, cattle, and reindeer."
+  },
+  {
+    "name": "Sporting",
+    "description": "Dogs bred to assist hunters in finding and retrieving game."
+  },
+  {
+    "name": "Terrier",
+    "description": "Dogs bred to hunt and kill vermin."
+  },
+  {
+    "name": "Companion",
+    "description": "Dogs specifically bred for human companionship and emotional support."
+  },
+  {
+    "name": "Designer",
+    "description": "Dogs that are crossbreeds of two or more established breeds, typically with specific traits."
+  },
+  {
+    "name": "Spitz-type",
+    "description": "Dogs characterized by thick fur, pointed ears and muzzles, and often a tail that curls over the back."
+  },
+  {
+    "name": "Guardian",
+    "description": "Dogs bred to protect livestock and property."
+  },
+  {
+    "name": "Scent",
+    "description": "Dogs bred to track and locate scents."
+  },
+  {
+    "name": "Sighthounds & Pariahs",
+    "description": "Dogs bred to hunt by sight or scent."
+  }
+]
