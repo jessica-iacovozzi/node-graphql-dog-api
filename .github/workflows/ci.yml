@@ -110,7 +110,6 @@ jobs:
       - name: Build
         run: npm run build
         
-      # Deploy to Vercel
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
         with:

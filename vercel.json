@@ -8,6 +8,14 @@
   ],
   "routes": [
     {
+      "src": "/graphql(.*)",
+      "dest": "dist/index.js"
+    },
+    {
+      "src": "/health(.*)",
+      "dest": "dist/index.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "dist/index.js"
     }
