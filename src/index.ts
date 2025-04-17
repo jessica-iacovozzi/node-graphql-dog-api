@@ -13,7 +13,8 @@ import { createLoaders, Context } from './utils/dataLoaders';
 import { apiLimiter } from './middleware/rateLimiter';
 import { graphqlRateLimiter } from './middleware/graphqlRateLimiter';
 
-async function startServer() {
+// Create and configure Express app without starting the server
+export async function createApp(): Promise<express.Application> {
   const app = express();
   
   const corsOptions = {
@@ -61,23 +62,28 @@ async function startServer() {
     res.status(200).send('OK');
   });
 
-  // For local development
-  if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 4000;
-    await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve));
-    console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
-  }
-
-  // For serverless environments like Vercel, return the Express app
+  // Store the httpServer on the app for when we need to start listening
+  (app as any).httpServer = httpServer;
+  
   return app;
 }
 
-// Export for serverless use
-export default startServer().then(app => {
+// Start the server (only used in development)
+export async function startServer(): Promise<express.Application> {
+  const app = await createApp();
+  const httpServer = (app as any).httpServer;
+  
+  const PORT = process.env.PORT || 4000;
+  await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve));
+  console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+  
   return app;
-}) as Promise<express.Application>;
+}
 
-// Start server only in non-production (local development)
+// For Vercel (serverless) - just create the app without listening
+export default createApp();
+
+// For local development - start the server
 if (process.env.NODE_ENV !== 'production') {
   startServer().catch(err => {
     console.error('Failed to start server:', err);
