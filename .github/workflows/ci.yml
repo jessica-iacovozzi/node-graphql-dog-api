@@ -25,6 +25,16 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v3
@@ -32,7 +42,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
           
       - name: Install dependencies
@@ -41,6 +51,11 @@ jobs:
       - name: Generate Prisma client
         run: npx prisma generate
         
+      - name: Run database migrations for tests
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/dog_api_test?schema=public
+        
       - name: Run linting
         run: npm run lint
         
@@ -48,9 +63,12 @@ jobs:
         run: npm test
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/dog_api_test?schema=public
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          ALLOW_INTROSPECTION: "true"
           
-  deploy:
-    name: Deploy
+  migrate:
+    name: Database Migration
     runs-on: ubuntu-latest
     needs: test
     if: github.ref == 'refs/heads/main'
@@ -61,7 +79,29 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run migrations
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [test, migrate]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
           cache: 'npm'
           
       - name: Install dependencies
