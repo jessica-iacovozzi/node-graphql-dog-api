@@ -12,6 +12,7 @@
       "dest": "dist/index.js"
     }
   ],
+  "outputDirectory": "dist",
   "env": {
     "NODE_ENV": "production"
   }
