@@ -9,9 +9,13 @@ import { resolvers } from './schema/resolvers';
 import { prisma } from './config/prisma';
 import { formatError } from './utils/errors';
 import { createLoaders, Context } from './utils/dataLoaders';
+import { apiLimiter } from './middleware/rateLimiter';
+import { graphqlRateLimiter } from './middleware/graphqlRateLimiter';
 
 async function startServer() {
   const app = express();
+  app.use(apiLimiter);
+
   const httpServer = http.createServer(app);
 
   const server = new ApolloServer<Context>({
@@ -22,6 +26,8 @@ async function startServer() {
   });
 
   await server.start();
+
+  app.use('/graphql', graphqlRateLimiter);
 
   app.use('/graphql', [
     cors(),

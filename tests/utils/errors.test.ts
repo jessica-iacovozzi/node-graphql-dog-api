@@ -177,6 +177,19 @@ describe('Error Utilities', () => {
       expect((formattedError.extensions.http as any).status).toBe(500);
     });
 
+    test('should sanitize rate limited errors', () => {
+      const error = {
+        message: 'Rate limit exceeded',
+        extensions: { code: 'RATE_LIMITED' },
+      };
+      
+      const formattedError = formatError(error);
+      expect(formattedError).toBeInstanceOf(GraphQLError);
+      expect(formattedError.message).toBe('Rate limit exceeded');
+      expect(formattedError.extensions.code).toBe('RATE_LIMITED');
+      expect((formattedError.extensions.http as any).status).toBe(429);
+    });
+
     test('should handle other errors differently in production vs development', () => {
       // Save original NODE_ENV
       const originalEnv = process.env.NODE_ENV;

@@ -87,7 +87,6 @@ export const formatError = (error: any) => {
     return new DatabaseError('Database operation failed');
   }
 
-  // Return a sanitized error for unexpected errors
   if (error.extensions?.code === 'INTERNAL_SERVER_ERROR') {
     return new GraphQLError('Internal server error', {
       extensions: {
@@ -97,6 +96,14 @@ export const formatError = (error: any) => {
     });
   }
 
-  // For other errors, return as is but limit error details in production
+  if (error.extensions?.code === 'RATE_LIMITED') {
+    return new GraphQLError('Rate limit exceeded', {
+      extensions: {
+        code: 'RATE_LIMITED',
+        http: { status: 429 }
+      }
+    });
+  }
+
   return process.env.NODE_ENV === 'production' ? { ...error, message: error.message } : error;
 };
