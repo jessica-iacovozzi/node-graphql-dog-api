@@ -44,9 +44,9 @@ export async function createApp(): Promise<express.Application> {
   });
 
   await server.start();
-
+  
   app.use('/graphql', graphqlRateLimiter);
-
+  
   app.use('/graphql', [
     cors(corsOptions),
     express.json(),
@@ -57,6 +57,10 @@ export async function createApp(): Promise<express.Application> {
       },
     }) as unknown as express.RequestHandler,
   ]); 
+
+  app.get('/', (_, res) => {
+    res.send('GraphQL API is running. Visit /graphql to use the API.');
+  });
 
   app.get('/health', (_, res) => {
     res.status(200).send('OK');
