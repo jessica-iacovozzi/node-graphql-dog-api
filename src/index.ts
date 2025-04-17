@@ -18,7 +18,7 @@ async function startServer() {
   
   const corsOptions = {
     origin: process.env.NODE_ENV === 'production' 
-      ? process.env.ALLOWED_ORIGINS?.split(',') || '[https://dogbreedsapi.vercel.app](https://dogbreedsapi.vercel.app)' // Change this
+      ? process.env.ALLOWED_ORIGINS?.split(',')
       : '*',
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
