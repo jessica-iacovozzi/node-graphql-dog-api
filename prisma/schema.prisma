@@ -22,7 +22,7 @@ model Category {
 model Breed {
   id                   String   @id @default(uuid())
   name                 String   @unique
-  commonNames          String[]?
+  commonNames          String[]
   description          String
   history              String
   funFact              String?
