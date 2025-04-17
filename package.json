@@ -57,7 +57,8 @@
     "express-rate-limit": "^7.5.0",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
-    "rate-limit-redis": "^4.2.0"
+    "rate-limit-redis": "^4.2.0",
+    "zod": "^3.24.3"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
