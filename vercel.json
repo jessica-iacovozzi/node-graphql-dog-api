@@ -2,26 +2,23 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/index.js",
+      "src": "src/index.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/graphql(.*)",
-      "dest": "dist/index.js"
+      "src": "/graphql(.*)",  
+      "dest": "src/index.ts"
     },
     {
       "src": "/health(.*)",
-      "dest": "dist/index.js"
+      "dest": "src/index.ts"
     },
     {
       "src": "/(.*)",
-      "dest": "dist/index.js"
+      "dest": "src/index.ts"
     }
   ],
-  "outputDirectory": "dist",
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "outputDirectory": "dist"
 }
