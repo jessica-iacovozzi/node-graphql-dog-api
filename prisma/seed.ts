@@ -144,7 +144,7 @@ function validateBreed(breed: Breed): ValidationError[] {
     averageHeight: [10, 100], // cm
     averageWeight: [1, 100], // kg
     averageLifeExpectancy: [5, 20], // years
-    exerciseRequired: [1, 5], // scale
+    exerciseRequired: [1, 6], // scale
     easeOfTraining: [1, 5], // scale
     affection: [1, 5], // scale
     playfulness: [1, 5], // scale
