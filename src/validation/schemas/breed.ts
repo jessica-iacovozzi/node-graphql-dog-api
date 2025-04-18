@@ -14,7 +14,7 @@ const breedBaseSchema = {
   averageHeight: z.number().positive(),
   averageWeight: z.number().positive(),
   averageLifeExpectancy: z.number().positive(),
-  exerciseRequired: ratingSchema,
+  exerciseRequired: z.number().int().min(1).max(6),
   easeOfTraining: ratingSchema,
   affection: ratingSchema,
   playfulness: ratingSchema,
